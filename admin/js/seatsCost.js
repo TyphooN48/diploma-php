@@ -22,7 +22,6 @@ async function getCost(e) {
         let result = await response.json()
 
         if (result.status) {
-            console.log(result)
             errP.style.display = 'none'
             errP.innerText = ''
             inpCostSt.value = result.data['standart']
@@ -68,7 +67,9 @@ async function saveCost() {
 function cancel() {
     inpCostSt.value = ''
     inpCostVp.value = ''
-    document.querySelector("input[name='prices-hall']:checked").checked = false;
+    saveCostBtn.setAttribute("disabled", true)
+    if(document.querySelector("input[name='prices-hall']:checked"))
+        document.querySelector("input[name='prices-hall']:checked").checked = false;
 }
 
 document.querySelectorAll("input[name='prices-hall']")
