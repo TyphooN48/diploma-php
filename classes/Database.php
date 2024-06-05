@@ -62,9 +62,35 @@ class Database {
     }
 
     // Метод для удаления записи
-    public function delete($table, $where, $params = []) {
-        $query = "DELETE FROM $table WHERE $where";
-        return $this->execute($query, $params);
+    public function delete($table, $where) {
+        $query = "DELETE FROM $table";
+        if(count($where) >= 1) {
+            $where_str = '';
+            foreach ($where as $key => $value) {
+                $where_str .= $key . '=' . $value . ' AND ';
+            }
+            $where_str = rtrim($where_str, ' AND ');
+            $query .= " WHERE $where_str";
+        }
+        return $this->execute($query);
+    }
+
+    // Метод для выборки записей по условию
+    public function selectWhere($table, $columns, $where) {
+        if(count($columns) >= 1)
+            $columns_str = implode(", ", $columns);
+        else
+            $columns_str = '*';
+        $query = "SELECT $columns_str FROM $table";
+        if(count($where) >= 1) {
+            $where_str = '';
+            foreach ($where as $key => $value) {
+                $where_str .= $key . '=' . $value . ' AND ';
+            }
+            $where_str = rtrim($where_str, ' AND ');
+            $query .= " WHERE $where_str";
+        }
+        return $this->query($query);
     }
 }
 ?>
