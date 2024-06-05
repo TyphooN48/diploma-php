@@ -57,7 +57,12 @@ class Database {
             $columns .= "$key = :$key, ";
         }
         $columns = rtrim($columns, ", ");
-        $query = "UPDATE $table SET $columns WHERE $where";
+        $where_str = '';
+        foreach ($where as $key => $value) {
+            $where_str .= $key . '=' . $value . ' AND ';
+        }
+        $where_str = rtrim($where_str, ' AND ');
+        $query = "UPDATE $table SET $columns WHERE $where_str";
         return $this->execute($query, $data);
     }
 

@@ -5,16 +5,25 @@ $result = [];
 if(!isset($_POST['type'])) {
     $result = ['status' => false, 'mess' => "Ошибка запроса"];
 } else {
+    $hallID = (int)$_POST['hallID'];
     switch ($_POST['type']) {
         case 'get':
-            $hallID = (int)$_POST['hallID'];
             $hallCost = $db->selectWhere('halls', ['cost'], ['id' => $hallID]);
+            if($hallCost) {
+                $result = ['status' => true, 'data' => json_decode($hallCost[0]['cost'], true)];
+            } else {
+                $result = ['status' => false, 'mess' => print_r($hallCost->errorInfo(), true)];
+            }
             break;
-    }
-    if($hallCost) {
-        $result = ['status' => true, 'data' => json_decode($hallCost[0]['cost'], true)];
-    } else {
-        $result = ['status' => false, 'mess' => print_r($hallCost->errorInfo(), true)];
+        case 'set':
+            $data = ['standart' => (int)$_POST['standart'], 'vip' => (int)$_POST['vip']];
+            $hallCostAdd = $db->update('halls', ['cost' => json_encode($data, JSON_UNESCAPED_UNICODE)], ['id' => $hallID]);
+            if($hallCostAdd) {
+                $result = ['status' => true];
+            } else {
+                $result = ['status' => false, 'mess' => print_r($hallCostAdd->errorInfo(), true)];
+            }
+
     }
 }
 

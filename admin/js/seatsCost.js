@@ -1,4 +1,5 @@
 const saveCostBtn = document.getElementById('saveCost')
+const canselCostBtn = document.getElementById('canselCost')
 const divSave = document.getElementById('hallSave')
 const errP = document.getElementById('hallError')
 const inpCostSt = document.getElementById('costStandart')
@@ -8,6 +9,8 @@ async function getCost(e) {
     const hallID = e.target.value
 
     if (hallID != null) {
+        divSave.innerText = ''
+        errP.style.display = 'none'
         let formData = new FormData();
         formData.append('hallID', hallID);
         formData.append('type', 'get');
@@ -41,7 +44,9 @@ async function saveCost() {
 
         let formData = new FormData();
         formData.append('hallID', hallID);
-        formData.append('type', 'get');
+        formData.append('type', 'set');
+        formData.append('standart', inpCostSt.value);
+        formData.append('vip', inpCostVp.value);
 
         let response = await fetch('/api/cost_hall.php', {
             method: 'POST',
@@ -51,15 +56,19 @@ async function saveCost() {
 
         if (result.status) {
             errP.style.display = 'none'
-            errP.innerText = ''
-            popupClose()
-            location.reload()
+            divSave.innerText = 'Данные успешно обновлены'
         } else {
             errP.style.display = 'block'
+            divSave.innerText = ''
             errP.innerText = result.mess
         }
-        console.log(hallID)
     }
+}
+
+function cancel() {
+    inpCostSt.value = ''
+    inpCostVp.value = ''
+    document.querySelector("input[name='prices-hall']:checked").checked = false;
 }
 
 document.querySelectorAll("input[name='prices-hall']")
@@ -68,3 +77,4 @@ document.querySelectorAll("input[name='prices-hall']")
 }))
 
 saveCostBtn.addEventListener('click', saveCost)
+canselCostBtn.addEventListener('click', cancel)

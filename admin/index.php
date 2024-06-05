@@ -220,7 +220,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/service/redirect.php';
             <div class="conf-step__wrapper__save-status" id="hallSave"></div>
             <p class="text-center" style="color: red; display: none" id="hallError"></p>
             <fieldset class="conf-step__buttons text-center">
-                <button class="conf-step__button conf-step__button-regular">Отмена</button>
+                <button class="conf-step__button conf-step__button-regular" id="canselCost">Отмена</button>
                 <input type="submit" value="Сохранить" class="conf-step__button conf-step__button-accent" id="saveCost" disabled>
             </fieldset>
         </div>
@@ -327,6 +327,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/service/redirect.php';
 <script src="js/popup.js"></script>
 <script src="js/addHall.js"></script>
 <script src="js/deleteHall.js"></script>
-<script src="js/saveCost.js"></script>
+<script src="js/seatsCost.js"></script>
 </body>
 </html>

@@ -20,9 +20,9 @@ USE `diploma_php`;
 CREATE TABLE IF NOT EXISTS `halls` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
-  `grid` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `cost` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '{"standart": 100, "vip":150}',
-  PRIMARY KEY (`id`)
+  `grid` VARCHAR(1500) DEFAULT NULL,
+  `cost` VARCHAR(200) DEFAULT '{"standart":100,"vip":150}',
+  PRIMARY KEY (`id`)halls
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- Дамп данных таблицы diploma_php.halls: ~2 rows (приблизительно)
