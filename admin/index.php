@@ -200,26 +200,28 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/service/redirect.php';
         <div class="conf-step__wrapper">
             <p class="conf-step__paragraph">Выберите зал для конфигурации:</p>
             <ul class="conf-step__selectors-box">
-                <li><input type="radio" class="conf-step__radio" name="prices-hall" value="Зал 1"><span
-                            class="conf-step__selector">Зал 1</span></li>
-                <li><input type="radio" class="conf-step__radio" name="prices-hall" value="Зал 2" checked><span
-                            class="conf-step__selector">Зал 2</span></li>
+                <?foreach ($allHalls as $hall): ?>
+                    <li>
+                        <input type="radio" class="conf-step__radio" name="prices-hall" value="<?=$hall['id']?>"><span
+                                class="conf-step__selector"><?=$hall['name']?></span>
+                    </li>
+                <?endforeach;?>
             </ul>
 
             <p class="conf-step__paragraph">Установите цены для типов кресел:</p>
             <div class="conf-step__legend">
-                <label class="conf-step__label">Цена, рублей<input type="text" class="conf-step__input" placeholder="0"></label>
+                <label class="conf-step__label">Цена, рублей<input type="text" class="conf-step__input" placeholder="0" id="costStandart"></label>
                 за <span class="conf-step__chair conf-step__chair_standart"></span> обычные кресла
             </div>
             <div class="conf-step__legend">
-                <label class="conf-step__label">Цена, рублей<input type="text" class="conf-step__input" placeholder="0"
-                                                                   value="350"></label>
+                <label class="conf-step__label">Цена, рублей<input type="text" class="conf-step__input" placeholder="0" id="costVip"></label>
                 за <span class="conf-step__chair conf-step__chair_vip"></span> VIP кресла
             </div>
-
+            <div class="conf-step__wrapper__save-status" id="hallSave"></div>
+            <p class="text-center" style="color: red; display: none" id="hallError"></p>
             <fieldset class="conf-step__buttons text-center">
                 <button class="conf-step__button conf-step__button-regular">Отмена</button>
-                <input type="submit" value="Сохранить" class="conf-step__button conf-step__button-accent">
+                <input type="submit" value="Сохранить" class="conf-step__button conf-step__button-accent" id="saveCost" disabled>
             </fieldset>
         </div>
     </section>
@@ -323,6 +325,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/service/redirect.php';
 </main>
 <script src="js/accordeon.js"></script>
 <script src="js/popup.js"></script>
+<script src="js/addHall.js"></script>
 <script src="js/deleteHall.js"></script>
+<script src="js/saveCost.js"></script>
 </body>
 </html>
