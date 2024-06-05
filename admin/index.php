@@ -220,8 +220,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/service/redirect.php';
 </main>
 <script src="js/accordeon.js"></script>
 <script src="js/popup.js"></script>
-<script src="js/addHall.js"></script>
-<script src="js/deleteHall.js"></script>
+<script src="js/hall.js"></script>
 <script src="js/hallConfigure.js"></script>
 <script src="js/seatsCost.js"></script>
 </body>
