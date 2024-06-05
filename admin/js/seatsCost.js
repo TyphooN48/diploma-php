@@ -1,7 +1,7 @@
 const saveCostBtn = document.getElementById('saveCost')
 const canselCostBtn = document.getElementById('canselCost')
 const divSave = document.getElementById('hallSave')
-const errP = document.getElementById('hallError')
+const errPSC = document.getElementById('hallError')
 const inpCostSt = document.getElementById('costStandart')
 const inpCostVp = document.getElementById('costVip')
 
@@ -10,7 +10,7 @@ async function getCost(e) {
 
     if (hallID != null) {
         divSave.innerText = ''
-        errP.style.display = 'none'
+        errPSC.style.display = 'none'
         let formData = new FormData();
         formData.append('hallID', hallID);
         formData.append('type', 'get');
@@ -22,15 +22,15 @@ async function getCost(e) {
         let result = await response.json()
 
         if (result.status) {
-            errP.style.display = 'none'
-            errP.innerText = ''
+            errPSC.style.display = 'none'
+            errPSC.innerText = ''
             inpCostSt.value = result.data['standart']
             inpCostVp.value = result.data['vip']
             saveCostBtn.removeAttribute("disabled")
         } else {
             divSave.innerText = ''
-            errP.innerText = result.mess
-            errP.style.display = 'block'
+            errPSC.innerText = result.mess
+            errPSC.style.display = 'block'
         }
     }
 }
@@ -54,12 +54,12 @@ async function saveCost() {
         let result = await response.json()
 
         if (result.status) {
-            errP.style.display = 'none'
+            errPSC.style.display = 'none'
             divSave.innerText = 'Данные успешно обновлены'
         } else {
-            errP.style.display = 'block'
+            errPSC.style.display = 'block'
             divSave.innerText = ''
-            errP.innerText = result.mess
+            errPSC.innerText = result.mess
         }
     }
 }

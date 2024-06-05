@@ -51,18 +51,22 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/service/redirect.php';
         <div class="conf-step__wrapper">
             <p class="conf-step__paragraph">Выберите зал для конфигурации:</p>
             <ul class="conf-step__selectors-box">
-                <li><input type="radio" class="conf-step__radio" name="chairs-hall" value="Зал 1" checked><span
-                            class="conf-step__selector">Зал 1</span></li>
-                <li><input type="radio" class="conf-step__radio" name="chairs-hall" value="Зал 2"><span
-                            class="conf-step__selector">Зал 2</span></li>
+                <?foreach ($allHalls as $hall): ?>
+                    <li>
+                        <input type="radio" class="conf-step__radio" name="chairs-hall" value="<?=$hall['id']?>"><span
+                                class="conf-step__selector"><?=$hall['name']?></span>
+                    </li>
+                <?endforeach;?>
             </ul>
             <p class="conf-step__paragraph">Укажите количество рядов и максимальное количество кресел в ряду:</p>
             <div class="conf-step__legend">
-                <label class="conf-step__label">Рядов, шт<input type="text" class="conf-step__input"
-                                                                placeholder="10"></label>
+                <label class="conf-step__label">
+                    Рядов, шт<input type="number" min="1" max="20" class="conf-step__input" placeholder="2" id="hallRows" disabled>
+                </label>
                 <span class="multiplier">x</span>
-                <label class="conf-step__label">Мест, шт<input type="text" class="conf-step__input"
-                                                               placeholder="8"></label>
+                <label class="conf-step__label">
+                    Мест, шт<input type="number" min="1" max="21" class="conf-step__input" placeholder="4" id="hallRowPlaces" disabled>
+                </label>
             </div>
             <p class="conf-step__paragraph">Теперь вы можете указать типы кресел на схеме зала:</p>
             <div class="conf-step__legend">
@@ -73,122 +77,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/service/redirect.php';
             </div>
 
             <div class="conf-step__hall">
-                <div class="conf-step__hall-wrapper">
-                    <div class="conf-step__row">
-                        <span class="conf-step__chair conf-step__chair_disabled"></span><span
-                                class="conf-step__chair conf-step__chair_disabled"></span>
-                        <span class="conf-step__chair conf-step__chair_disabled"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_disabled"></span>
-                        <span class="conf-step__chair conf-step__chair_disabled"></span><span
-                                class="conf-step__chair conf-step__chair_disabled"></span>
-                    </div>
-
-                    <div class="conf-step__row">
-                        <span class="conf-step__chair conf-step__chair_disabled"></span><span
-                                class="conf-step__chair conf-step__chair_disabled"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_disabled"></span><span
-                                class="conf-step__chair conf-step__chair_disabled"></span>
-                    </div>
-
-                    <div class="conf-step__row">
-                        <span class="conf-step__chair conf-step__chair_disabled"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_disabled"></span>
-                    </div>
-
-                    <div class="conf-step__row">
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_vip"></span>
-                        <span class="conf-step__chair conf-step__chair_vip"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_disabled"></span>
-                    </div>
-
-                    <div class="conf-step__row">
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_vip"></span><span
-                                class="conf-step__chair conf-step__chair_vip"></span>
-                        <span class="conf-step__chair conf-step__chair_vip"></span><span
-                                class="conf-step__chair conf-step__chair_vip"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_disabled"></span>
-                    </div>
-
-                    <div class="conf-step__row">
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_vip"></span><span
-                                class="conf-step__chair conf-step__chair_vip"></span>
-                        <span class="conf-step__chair conf-step__chair_vip"></span><span
-                                class="conf-step__chair conf-step__chair_vip"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_disabled"></span>
-                    </div>
-
-                    <div class="conf-step__row">
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_vip"></span><span
-                                class="conf-step__chair conf-step__chair_vip"></span>
-                        <span class="conf-step__chair conf-step__chair_vip"></span><span
-                                class="conf-step__chair conf-step__chair_vip"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_disabled"></span>
-                    </div>
-
-                    <div class="conf-step__row">
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_disabled"></span>
-                    </div>
-
-                    <div class="conf-step__row">
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                    </div>
-
-                    <div class="conf-step__row">
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                        <span class="conf-step__chair conf-step__chair_standart"></span><span
-                                class="conf-step__chair conf-step__chair_standart"></span>
-                    </div>
-                </div>
+                <div class="conf-step__hall-wrapper" id="hallGrid"></div>
             </div>
-
+            <p class="text-center" style="color: red; display: none" id="gridError"></p>
+            <div class="conf-step__wrapper__save-status" id="gridSave"></div>
             <fieldset class="conf-step__buttons text-center">
-                <button class="conf-step__button conf-step__button-regular">Отмена</button>
-                <input type="submit" value="Сохранить" class="conf-step__button conf-step__button-accent">
+                <button class="conf-step__button conf-step__button-regular" id="canselGrid">Отмена</button>
+                <input type="submit" value="Сохранить" class="conf-step__button conf-step__button-accent" id="saveGrid" disabled>
             </fieldset>
         </div>
     </section>
@@ -327,6 +222,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/service/redirect.php';
 <script src="js/popup.js"></script>
 <script src="js/addHall.js"></script>
 <script src="js/deleteHall.js"></script>
+<script src="js/hallConfigure.js"></script>
 <script src="js/seatsCost.js"></script>
 </body>
 </html>
