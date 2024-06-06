@@ -8,16 +8,19 @@ if (!isset($_POST['hall'])) {
     $hallID = (int)$_POST['hall'];
     $filmID = (int)$_POST['film'];
     $timeStart = $_POST['start_time'];
-    $addFrid = $db->insert('seances', [
-        'hall_id' => $hallID,
-        'film_id' => $filmID,
-        'time_start' => $timeStart,
-    ]);
-
-    if ($addFrid) {
-        $result = ['status' => true];
+    if(canChange($hallID)) {
+        $addFrid = $db->insert('seances', [
+            'hall_id' => $hallID,
+            'film_id' => $filmID,
+            'time_start' => $timeStart,
+        ]);
+        if ($addFrid) {
+            $result = ['status' => true];
+        } else {
+            $result = ['status' => false, 'mess' => print_r($addFrid->errorInfo(), true)];
+        }
     } else {
-        $result = ['status' => false, 'mess' => print_r($addFrid->errorInfo(), true)];
+        $result = ['status' => false, 'mess' => 'Для добавления сеанса приостановите продажу билетов'];
     }
 }
 

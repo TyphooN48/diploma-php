@@ -17,11 +17,15 @@ if(!isset($_POST['type'])) {
             break;
         case 'set':
             $data = ['standart' => (int)$_POST['standart'], 'vip' => (int)$_POST['vip']];
-            $hallCostAdd = $db->update('halls', ['cost' => json_encode($data, JSON_UNESCAPED_UNICODE)], ['id' => $hallID]);
-            if($hallCostAdd) {
-                $result = ['status' => true];
+            if(canChange($hallID)) {
+                $hallCostAdd = $db->update('halls', ['cost' => json_encode($data, JSON_UNESCAPED_UNICODE)], ['id' => $hallID]);
+                if ($hallCostAdd) {
+                    $result = ['status' => true];
+                } else {
+                    $result = ['status' => false, 'mess' => print_r($hallCostAdd->errorInfo(), true)];
+                }
             } else {
-                $result = ['status' => false, 'mess' => print_r($hallCostAdd->errorInfo(), true)];
+                $result = ['status' => false, 'mess' => 'Для изменения стоимости приостановите продажу билетов'];
             }
 
     }

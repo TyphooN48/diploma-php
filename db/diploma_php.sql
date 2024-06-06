@@ -22,33 +22,26 @@
 DROP TABLE IF EXISTS `films`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `films`
-(
-    `id`          int                                     NOT NULL AUTO_INCREMENT,
-    `name`        varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `duration`    int                                     NOT NULL,
-    `description` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-    `country`     varchar(50) COLLATE utf8mb4_unicode_ci  DEFAULT NULL,
-    `poster`      varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `films` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `duration` int NOT NULL,
+  `description` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `country` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `poster` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `films`
 --
 
-LOCK
-TABLES `films` WRITE;
+LOCK TABLES `films` WRITE;
 /*!40000 ALTER TABLE `films` DISABLE KEYS */;
-INSERT INTO `films`
-VALUES (1, 'Атака клонированных клонов', 130,
-        'Две сотни лет назад малороссийские хутора разоряла шайка нехристей-ляхов во главе с могущественным колдуном',
-        'США', '/uploads/1717678695.jpg'),
-       (2, 'Ёлки', 90, 'Новогодняя комедия для всей семьи', 'Россия', '/uploads/1717678857.jpg');
+INSERT INTO `films` VALUES (1,'Атака клонированных клонов',130,'Две сотни лет назад малороссийские хутора разоряла шайка нехристей-ляхов во главе с могущественным колдуном','США','/uploads/1717678695.jpg'),(3,'Ёлки',120,'Новогодняя комедия для всей семьи','Россия','/uploads/1717710540.jpg');
 /*!40000 ALTER TABLE `films` ENABLE KEYS */;
-UNLOCK
-TABLES;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `halls`
@@ -57,29 +50,25 @@ TABLES;
 DROP TABLE IF EXISTS `halls`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `halls`
-(
+CREATE TABLE `halls` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
   `grid` varchar(1500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT '{"rows":2,"places":4,"grid":[0,1,1,0,2,0,0,2]}',
   `cost` varchar(200) DEFAULT '{"standart": 100, "vip":150}',
+  `status` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `halls`
 --
 
-LOCK
-TABLES `halls` WRITE;
+LOCK TABLES `halls` WRITE;
 /*!40000 ALTER TABLE `halls` DISABLE KEYS */;
-INSERT INTO `halls`
-VALUES (1, '123', '{\"rows\":1,\"places\":4,\"grid\":[0,2,0,0]}', '{\"standart\":110,\"vip\":150}'),
-       (2, '234', '{\"rows\":2,\"places\":4,\"grid\":[0,1,1,0,2,0,0,2]}', '{\"standart\":99,\"vip\":150}');
+INSERT INTO `halls` VALUES (7,'Главный зал','{\"rows\":3,\"places\":4,\"grid\":[2,2,2,2,1,0,0,1,1,1,1,1]}','{\"standart\":100,\"vip\":200}',1);
 /*!40000 ALTER TABLE `halls` ENABLE KEYS */;
-UNLOCK
-TABLES;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `seances`
@@ -88,33 +77,28 @@ TABLES;
 DROP TABLE IF EXISTS `seances`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `seances`
-(
-    `id`         int NOT NULL AUTO_INCREMENT,
-    `hall_id`    int                                   DEFAULT NULL,
-    `film_id`    int                                   DEFAULT NULL,
-    `time_start` varchar(5) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    KEY          `seances_halls_FK` (`hall_id`),
-    KEY          `seances_films_FK` (`film_id`),
-    CONSTRAINT `seances_films_FK` FOREIGN KEY (`film_id`) REFERENCES `films` (`id`),
-    CONSTRAINT `seances_halls_FK` FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `seances` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `hall_id` int DEFAULT NULL,
+  `film_id` int DEFAULT NULL,
+  `time_start` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `seances_halls_FK` (`hall_id`),
+  KEY `seances_films_FK` (`film_id`),
+  CONSTRAINT `seances_films_FK` FOREIGN KEY (`film_id`) REFERENCES `films` (`id`),
+  CONSTRAINT `seances_halls_FK` FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `seances`
 --
 
-LOCK
-TABLES `seances` WRITE;
+LOCK TABLES `seances` WRITE;
 /*!40000 ALTER TABLE `seances` DISABLE KEYS */;
-INSERT INTO `seances`
-VALUES (6, 1, 1, '10:00'),
-       (7, 2, 2, '09:00');
+INSERT INTO `seances` VALUES (13,7,1,'10:00'),(16,7,3,'08:00'),(18,7,1,'05:00'),(19,7,3,'18:00'),(20,7,1,'21:00');
 /*!40000 ALTER TABLE `seances` ENABLE KEYS */;
-UNLOCK
-TABLES;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `users`
@@ -123,8 +107,7 @@ TABLES;
 DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users`
-(
+CREATE TABLE `users` (
   `id` int NOT NULL AUTO_INCREMENT,
   `login` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `pass` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -137,15 +120,11 @@ CREATE TABLE `users`
 -- Dumping data for table `users`
 --
 
-LOCK
-TABLES `users` WRITE;
+LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users`
-VALUES (1, 'andrew@ya.ru', '$2y$10$1lUkgsCAHu/qQoNuNfd/J./H9G5kutKHvQNCCYAbItAFfD4tdv8mq'),
-       (2, 'test@ya.ru', '$2y$10$14j0CrY.Z69xzMmyqB2J1eMd4ziUGTezopfGACP3ysJzZnk2m9wLW');
+INSERT INTO `users` VALUES (1,'andrew@ya.ru','$2y$10$1lUkgsCAHu/qQoNuNfd/J./H9G5kutKHvQNCCYAbItAFfD4tdv8mq'),(2,'test@ya.ru','$2y$10$14j0CrY.Z69xzMmyqB2J1eMd4ziUGTezopfGACP3ysJzZnk2m9wLW');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK
-TABLES;
+UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'diploma_php'
@@ -160,4 +139,4 @@ TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-06 18:13:39
+-- Dump completed on 2024-06-07  1:34:19
