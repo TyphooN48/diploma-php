@@ -1,11 +1,20 @@
 async function showPopup(popupType, id) {
     let formData = new FormData();
-    formData.append('type', popupType);
     switch (popupType) {
         case 'deleteHall':
             formData.append('hallID', id);
             break
+        case 'addFilmInGid':
+            formData.append('filmID', id);
+            break
+        case 'addHallBtn':
+            popupType = 'addHall'
+            break
+        case 'addFilmBtn':
+            popupType = 'addFilm'
+            break
     }
+    formData.append('type', popupType);
     let response = await fetch('/api/popup.php', {
         method: 'POST',
         body: formData
@@ -26,6 +35,14 @@ async function showPopup(popupType, id) {
             const buttonAdd = document.querySelector('.conf-step__button-accent');
             buttonAdd.addEventListener('click', deleteHall);
         }
+        if (popupType == 'addFilm') {
+            const buttonAdd = document.querySelector('.conf-step__button-accent');
+            buttonAdd.addEventListener('click', addFilm);
+        }
+        if (popupType == 'addFilmInGid') {
+            const buttonAdd = document.querySelector('.conf-step__button-accent');
+            buttonAdd.addEventListener('click', setFilmGrid);
+        }
     } else {
         console.log(result.data)
     }
@@ -37,7 +54,7 @@ function popupClose() {
     popup.remove();
 }
 
-const showPopupButton = ['addHall']
+const showPopupButton = ['addHallBtn', 'addFilmBtn']
 
 showPopupButton.forEach(btn => {
     document.getElementById(btn).addEventListener('click', (e) => {

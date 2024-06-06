@@ -40,7 +40,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/service/redirect.php';
                     </li>
                 <? endforeach; ?>
             </ul>
-            <button class="conf-step__button conf-step__button-accent" id="addHall">Создать зал</button>
+            <button class="conf-step__button conf-step__button-accent" id="addHallBtn">Создать зал</button>
         </div>
     </section>
 
@@ -127,84 +127,56 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/service/redirect.php';
         </header>
         <div class="conf-step__wrapper">
             <p class="conf-step__paragraph">
-                <button class="conf-step__button conf-step__button-accent">Добавить фильм</button>
+                <button class="conf-step__button conf-step__button-accent" id="addFilmBtn">Добавить фильм</button>
             </p>
             <div class="conf-step__movies">
-                <div class="conf-step__movie">
-                    <img class="conf-step__movie-poster" alt="poster" src="i/poster.png">
-                    <h3 class="conf-step__movie-title">Звёздные войны XXIII: Атака клонированных клонов</h3>
-                    <p class="conf-step__movie-duration">130 минут</p>
+                <? $allFilms = $db->selectWhere('films', ['id', 'name', 'duration', 'poster'], []);
+                foreach ($allFilms as $film): ?>
+                    <div class="conf-step__movie" data-filmid="<?= $film['id'] ?>">
+                        <img class="conf-step__movie-poster" alt="poster" src="<?= $film['poster'] ?>">
+                        <h3 class="conf-step__movie-title"><?= $film['name'] ?></h3>
+                        <p class="conf-step__movie-duration"><?= $film['duration'] ?> минут</p>
                 </div>
-
-                <div class="conf-step__movie">
-                    <img class="conf-step__movie-poster" alt="poster" src="i/poster.png">
-                    <h3 class="conf-step__movie-title">Миссия выполнима</h3>
-                    <p class="conf-step__movie-duration">120 минут</p>
-                </div>
-
-                <div class="conf-step__movie">
-                    <img class="conf-step__movie-poster" alt="poster" src="i/poster.png">
-                    <h3 class="conf-step__movie-title">Серая пантера</h3>
-                    <p class="conf-step__movie-duration">90 минут</p>
-                </div>
-
-                <div class="conf-step__movie">
-                    <img class="conf-step__movie-poster" alt="poster" src="i/poster.png">
-                    <h3 class="conf-step__movie-title">Движение вбок</h3>
-                    <p class="conf-step__movie-duration">95 минут</p>
-                </div>
-
-                <div class="conf-step__movie">
-                    <img class="conf-step__movie-poster" alt="poster" src="i/poster.png">
-                    <h3 class="conf-step__movie-title">Кот Да Винчи</h3>
-                    <p class="conf-step__movie-duration">100 минут</p>
-                </div>
+                <? endforeach; ?>
             </div>
 
             <div class="conf-step__seances">
-                <div class="conf-step__seances-hall">
-                    <h3 class="conf-step__seances-title">Зал 1</h3>
-                    <div class="conf-step__seances-timeline">
-                        <div class="conf-step__seances-movie"
-                             style="width: 60px; background-color: rgb(133, 255, 137); left: 0;">
-                            <p class="conf-step__seances-movie-title">Миссия выполнима</p>
-                            <p class="conf-step__seances-movie-start">00:00</p>
-                        </div>
-                        <div class="conf-step__seances-movie"
-                             style="width: 60px; background-color: rgb(133, 255, 137); left: 360px;">
-                            <p class="conf-step__seances-movie-title">Миссия выполнима</p>
-                            <p class="conf-step__seances-movie-start">12:00</p>
-                        </div>
-                        <div class="conf-step__seances-movie"
-                             style="width: 65px; background-color: rgb(202, 255, 133); left: 420px;">
-                            <p class="conf-step__seances-movie-title">Звёздные войны XXIII: Атака клонированных
-                                клонов</p>
-                            <p class="conf-step__seances-movie-start">14:00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="conf-step__seances-hall">
-                    <h3 class="conf-step__seances-title">Зал 2</h3>
-                    <div class="conf-step__seances-timeline">
-                        <div class="conf-step__seances-movie"
-                             style="width: 65px; background-color: rgb(202, 255, 133); left: 595px;">
-                            <p class="conf-step__seances-movie-title">Звёздные войны XXIII: Атака клонированных
-                                клонов</p>
-                            <p class="conf-step__seances-movie-start">19:50</p>
-                        </div>
-                        <div class="conf-step__seances-movie"
-                             style="width: 60px; background-color: rgb(133, 255, 137); left: 660px;">
-                            <p class="conf-step__seances-movie-title">Миссия выполнима</p>
-                            <p class="conf-step__seances-movie-start">22:00</p>
+                <? foreach ($allHalls as $hall): ?>
+                    <div class="conf-step__seances-hall">
+                        <h3 class="conf-step__seances-title"><?= $hall['name'] ?></h3>
+                        <div class="conf-step__seances-timeline">
+                            <? $hallGrid = $db->selectWhere('seances', ['film_id', 'time_start'], ['hall_id' => $hall['id']]);
+                            foreach ($hallGrid as $grid):
+                                $filmInfo = $db->selectWhere('films', ['id', 'name', 'duration'], ['id' => $grid['film_id']])[0];
+                                $posStart = ((int)explode(':', $grid['time_start'])[0] * 60 + (int)explode(':', $grid['time_start'])[1]) / 2;
+                                $posEnd = $posStart + (int)$filmInfo['duration'] / 2;
+                                ?>
+                                <div class="conf-step__seances-movie"
+                                     style="width: <?= $posEnd - $posStart ?>px; background-color: rgb(133, 255, 137); left: <?= $posStart ?>px;">
+                                    <p class="conf-step__seances-movie-title"><?= $filmInfo['name'] ?></p>
+                                    <p class="conf-step__seances-movie-start"><?= $grid['time_start'] ?></p>
+                                </div>
+                            <? endforeach; ?>
+                            <? /*<div class="conf-step__seances-movie"
+                                 style="width: 60px; background-color: rgb(133, 255, 137); left: 360px;">
+                                <p class="conf-step__seances-movie-title">Миссия выполнима</p>
+                                <p class="conf-step__seances-movie-start">12:00</p>
+                            </div>
+                            <div class="conf-step__seances-movie"
+                                 style="width: 65px; background-color: rgb(202, 255, 133); left: 420px;">
+                                <p class="conf-step__seances-movie-title">Звёздные войны XXIII: Атака клонированных
+                                    клонов</p>
+                                <p class="conf-step__seances-movie-start">14:00</p>
+                            </div>*/ ?>
                         </div>
                     </div>
-                </div>
+                <? endforeach; ?>
             </div>
 
-            <fieldset class="conf-step__buttons text-center">
+            <? /*<fieldset class="conf-step__buttons text-center">
                 <button class="conf-step__button conf-step__button-regular">Отмена</button>
                 <input type="submit" value="Сохранить" class="conf-step__button conf-step__button-accent">
-            </fieldset>
+            </fieldset>*/ ?>
         </div>
     </section>
 
@@ -223,5 +195,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/service/redirect.php';
 <script src="js/hall.js"></script>
 <script src="js/hallConfigure.js"></script>
 <script src="js/seatsCost.js"></script>
+<script src="js/film.js"></script>
 </body>
 </html>
