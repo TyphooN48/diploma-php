@@ -6,4 +6,8 @@ RUN apt-get update \
   && apt-get install -y --no-install-recommends libpq-dev \
   && docker-php-ext-install pdo_mysql
 
+RUN rm -rf /etc/localtime
+RUN ln -s /usr/share/zoneinfo/Europe/Moscow /etc/localtime
+RUN echo "Europe/Moscow" > /etc/timezone
+
 EXPOSE 80
