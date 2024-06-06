@@ -1,7 +1,7 @@
 <?php
 
 class Database {
-    private $host = 'localhost';
+    private $host = 'db';
     private $db_name = 'diploma_php';
     private $username = 'diplom_user';
     private $password = '123456789Qwer1';
