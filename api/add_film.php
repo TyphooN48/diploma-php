@@ -1,6 +1,5 @@
 <?
 require_once $_SERVER['DOCUMENT_ROOT'] . '/service/header.php';
-$serverPathRoot = '/var/www/html';
 
 $result = [];
 if (!isset($_POST['name']) && !isset($_POST['duration'])) {

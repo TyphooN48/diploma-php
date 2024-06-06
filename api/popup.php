@@ -57,7 +57,7 @@ if (!isset($_POST['type'])) {
                                     <div class="conf-step__buttons text-center">
                                         <p class="text-center" style="color: red; display: none" id="errText"></p>
                                         <input type="hidden" name="hallID" value="' . $hall[0]['id'] . '">
-                                        <input type="submit" value="Удалить" class="conf-step__button conf-step__button-accent" data-event="hall_del">
+                                        <input type="submit" value="Удалить" class="conf-step__button conf-step__button-accent">
                                         <button class="conf-step__button conf-step__button-regular" type="button">Отменить</button>
                                     </div>
                                 </form>
@@ -165,6 +165,73 @@ if (!isset($_POST['type'])) {
                         </div>
                     </div>
                 </div>'];
+            }
+            break;
+        case 'deleteFilm':
+            $selectFilm = $db->selectWhere('films', ['id', 'name'], ['id' => $_POST['filmID']]);
+            if (!$selectFilm) {
+                $result = ['status' => false, 'data' => print_r($selectFilm, true)];
+            } else {
+                $result = ['status' => true,
+                    'data' => '<div class="popup active">
+                    <div class="popup__container">
+                        <div class="popup__content">
+                            <div class="popup__header">
+                                <h2 class="popup__title">
+                                    Удаление фильма
+                                    <span class="popup__dismiss"><img src="/admin/i/close.png" alt="Закрыть"></span>
+                                </h2>
+                            </div>
+                            <div class="popup__wrapper">
+                                <form method="post" accept-charset="utf-8" id="daleteFilm">
+                                    <p class="conf-step__paragraph">Вы действительно хотите удалить фильм "' . htmlspecialchars($selectFilm[0]['name']) . '"?</p>
+                                    <div class="conf-step__buttons text-center">
+                                        <p class="text-center" style="color: red; display: none" id="errTextDelFilm"></p>
+                                        <input type="hidden" name="filmID" value="' . $selectFilm[0]['id'] . '">
+                                        <input type="submit" value="Удалить" class="conf-step__button conf-step__button-accent">
+                                        <button class="conf-step__button conf-step__button-regular" type="button">Отменить</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>'];
+            }
+            break;
+        case 'deleteSeance':
+            $selectSeance = $db->selectWhere('seances', ['id', 'film_id'], ['id' => $_POST['seanceID']]);
+            if (!$selectSeance) {
+                $result = ['status' => false, 'data' => print_r($selectSeance, true)];
+            } else {
+                $selectFilm = $db->selectWhere('films', ['name'], ['id' => $selectSeance[0]['film_id']]);
+                if (!$selectFilm) {
+                    $result = ['status' => false, 'data' => print_r($selectFilm, true)];
+                } else {
+                    $result = ['status' => true,
+                        'data' => '<div class="popup active">
+                        <div class="popup__container">
+                            <div class="popup__content">
+                                <div class="popup__header">
+                                    <h2 class="popup__title">
+                                        Снятие с сеанса
+                                        <span class="popup__dismiss"><img src="/admin/i/close.png" alt="Закрыть"></span>
+                                    </h2>
+                                </div>
+                                <div class="popup__wrapper">
+                                    <form method="post" accept-charset="utf-8" id="deleteSeance">
+                                        <p class="conf-step__paragraph">Вы действительно хотите снять с сеанса фильм "' . htmlspecialchars($selectFilm[0]['name']) . '"?</p>
+                                        <div class="conf-step__buttons text-center">
+                                            <p class="text-center" style="color: red; display: none" id="errTextDelSeance"></p>
+                                            <input type="hidden" name="seanceID" value="' . $selectSeance[0]['id'] . '">
+                                            <input type="submit" value="Удалить" class="conf-step__button conf-step__button-accent">
+                                            <button class="conf-step__button conf-step__button-regular" type="button">Отменить</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>'];
+                }
             }
             break;
         default:

@@ -4,6 +4,10 @@ async function showPopup(popupType, id) {
         case 'deleteHall':
             formData.append('hallID', id);
             break
+        case 'deleteSeance':
+            formData.append('seanceID', id);
+            break
+        case 'deleteFilm':
         case 'addFilmInGid':
             formData.append('filmID', id);
             break
@@ -38,6 +42,14 @@ async function showPopup(popupType, id) {
         if (popupType == 'addFilm') {
             const buttonAdd = document.querySelector('.conf-step__button-accent');
             buttonAdd.addEventListener('click', addFilm);
+        }
+        if (popupType == 'deleteFilm') {
+            const buttonAdd = document.querySelector('.conf-step__button-accent');
+            buttonAdd.addEventListener('click', deleteFilm);
+        }
+        if (popupType == 'deleteSeance') {
+            const buttonAdd = document.querySelector('.conf-step__button-accent');
+            buttonAdd.addEventListener('click', deleteSeance);
         }
         if (popupType == 'addFilmInGid') {
             const buttonAdd = document.querySelector('.conf-step__button-accent');

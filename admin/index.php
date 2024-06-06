@@ -35,7 +35,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/service/redirect.php';
                 foreach ($allHalls as $hall): ?>
                     <li>
                         <?= $hall['name'] ?>
-                        <button class="conf-step__button conf-step__button-trash"
+                        <button class="conf-step__button conf-step__button-trash delete_hall"
                                 data-idhall="<?= $hall['id'] ?>"></button>
                     </li>
                 <? endforeach; ?>
@@ -136,6 +136,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/service/redirect.php';
                         <img class="conf-step__movie-poster" alt="poster" src="<?= $film['poster'] ?>">
                         <h3 class="conf-step__movie-title"><?= $film['name'] ?></h3>
                         <p class="conf-step__movie-duration"><?= $film['duration'] ?> минут</p>
+                        <button class="conf-step__button conf-step__button-trash delete-film"
+                                data-idfilm="<?= $film['id'] ?>"></button>
                 </div>
                 <? endforeach; ?>
             </div>
@@ -145,16 +147,18 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/service/redirect.php';
                     <div class="conf-step__seances-hall">
                         <h3 class="conf-step__seances-title"><?= $hall['name'] ?></h3>
                         <div class="conf-step__seances-timeline">
-                            <? $hallGrid = $db->selectWhere('seances', ['film_id', 'time_start'], ['hall_id' => $hall['id']]);
+                            <? $hallGrid = $db->selectWhere('seances', ['id', 'film_id', 'time_start'], ['hall_id' => $hall['id']]);
                             foreach ($hallGrid as $grid):
                                 $filmInfo = $db->selectWhere('films', ['id', 'name', 'duration'], ['id' => $grid['film_id']])[0];
                                 $posStart = ((int)explode(':', $grid['time_start'])[0] * 60 + (int)explode(':', $grid['time_start'])[1]) / 2;
                                 $posEnd = $posStart + (int)$filmInfo['duration'] / 2;
                                 ?>
-                                <div class="conf-step__seances-movie"
-                                     style="width: <?= $posEnd - $posStart ?>px; background-color: rgb(133, 255, 137); left: <?= $posStart ?>px;">
+                                <div class="conf-step__seances-movie" data-filmid="<?=$filmInfo['id']?>"
+                                     style="width: <?= $posEnd - $posStart ?>px; left: <?= $posStart ?>px;">
                                     <p class="conf-step__seances-movie-title"><?= $filmInfo['name'] ?></p>
                                     <p class="conf-step__seances-movie-start"><?= $grid['time_start'] ?></p>
+                                    <button class="conf-step__button conf-step__button-trash delete-seance"
+                                            data-idseance="<?= $grid['id'] ?>"></button>
                                 </div>
                             <? endforeach; ?>
                             <? /*<div class="conf-step__seances-movie"

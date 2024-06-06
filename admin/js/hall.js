@@ -1,4 +1,4 @@
-const buttonsDelHall = Array.from(document.querySelectorAll('.conf-step__button-trash'))
+const buttonsDelHall = Array.from(document.querySelectorAll('.delete_hall'))
 
 async function deleteHall(e) {
     e.preventDefault()

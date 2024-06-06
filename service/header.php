@@ -9,3 +9,4 @@ spl_autoload_register(
 
 $db = new Database();
 $user = new User($db);
+$serverPathRoot = '/var/www/html';
