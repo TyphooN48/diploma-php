@@ -20,7 +20,7 @@
 
 <nav class="page-nav">
     <?php
-    $first = 'page-nav__day_today page-nav__day_chosen ';
+    $first = 'page-nav__day_today page-nav__day_chosen';
     $days = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
     for ($i = 0; $i < 7; $i++):
         $day = strtotime("+$i day");
@@ -29,7 +29,7 @@
         if (date('w', $day) == 0 || date('w', $day) == 6)
             $class = ' page-nav__day_weekend'; ?>
         <span class="page-nav__day <?= $first . $class ?>"
-              data-day="<?= $day ?>">
+              data-day="<?= date('j', $day) ?>">
             <span class="page-nav__day-week"><?= $dayWeek ?></span><span
                     class="page-nav__day-number"><?= date('j', $day) ?></span>
         </span>
@@ -83,7 +83,10 @@ $allFilms = $db->selectWhere('films', ['id', 'name', 'duration', 'poster', 'desc
                         usort($seances, "cmp");
                         foreach ($seances as $seance):?>
                             <li class="movie-seances__time-block">
-                                <a class="movie-seances__time" data-seanceid="<?= $seance['id'] ?>"><?= $seance['time_start'] ?></a>
+                                <?$timeClass = 'movie-seances__time';
+                                if($seance['time_start'] < date('H:i'))
+                                    $timeClass = 'movie-seances__time-disabled';?>
+                                <a class="<?=$timeClass?>" data-seanceid="<?= $seance['id'] ?>" data-filmid="<?= $film['id'] ?>" data-seancetime="<?= $seance['time_start'] ?>"><?= $seance['time_start'] ?></a>
                             </li>
                         <? endforeach; ?>
                     </ul>
@@ -94,4 +97,5 @@ $allFilms = $db->selectWhere('films', ['id', 'name', 'duration', 'poster', 'desc
 </main>
 
 </body>
+<script src="js/index.js"></script>
 </html>

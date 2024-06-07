@@ -161,26 +161,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/service/redirect.php';
                                             data-idseance="<?= $grid['id'] ?>"></button>
                                 </div>
                             <? endforeach; ?>
-                            <? /*<div class="conf-step__seances-movie"
-                                 style="width: 60px; background-color: rgb(133, 255, 137); left: 360px;">
-                                <p class="conf-step__seances-movie-title">Миссия выполнима</p>
-                                <p class="conf-step__seances-movie-start">12:00</p>
-                            </div>
-                            <div class="conf-step__seances-movie"
-                                 style="width: 65px; background-color: rgb(202, 255, 133); left: 420px;">
-                                <p class="conf-step__seances-movie-title">Звёздные войны XXIII: Атака клонированных
-                                    клонов</p>
-                                <p class="conf-step__seances-movie-start">14:00</p>
-                            </div>*/ ?>
                         </div>
                     </div>
                 <? endforeach; ?>
             </div>
-
-            <? /*<fieldset class="conf-step__buttons text-center">
-                <button class="conf-step__button conf-step__button-regular">Отмена</button>
-                <input type="submit" value="Сохранить" class="conf-step__button conf-step__button-accent">
-            </fieldset>*/ ?>
         </div>
     </section>
 
