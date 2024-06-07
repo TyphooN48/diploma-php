@@ -14,8 +14,6 @@ function setSeances(e) {
         e.target.parentElement.classList.add('page-nav__day_chosen')
         selectedDate = e.target.parentElement.dataset.fulldate
     }
-
-    console.log(selectedDate)
     const timeBtn = Array.from(document.querySelectorAll('.movie-seances__time,.movie-seances__time-disabled'))
     if(date == today.getDate()) {
         timeBtn.forEach(btn => {
