@@ -11,7 +11,7 @@ if (!isset($_POST['name']) && !isset($_POST['duration'])) {
     $filmNCountry = htmlspecialchars($_POST['country']);
     $filmPoster = $_FILES['poster'];
 
-    $uploaddir = $serverPathRoot . '/uploads/';
+    $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/uploads/';
     $fileName = explode(".", basename($filmPoster['name']));
     $uploadfile = $uploaddir . time() . '.' . end($fileName);
 
@@ -21,7 +21,7 @@ if (!isset($_POST['name']) && !isset($_POST['duration'])) {
             'duration' => $filmDuration,
             'description' => $filmNDescription,
             'country' => $filmNCountry,
-            'poster' => substr($uploadfile, strlen($serverPathRoot))
+            'poster' => substr($uploadfile, strlen($_SERVER['DOCUMENT_ROOT']))
         ]);
 
         if ($addFilm) {

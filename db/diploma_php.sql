@@ -101,6 +101,37 @@ INSERT INTO `seances` VALUES (13,7,1,'10:00'),(16,7,3,'08:00'),(18,7,1,'05:00'),
 UNLOCK TABLES;
 
 --
+-- Table structure for table `tickets`
+--
+
+DROP TABLE IF EXISTS `tickets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tickets` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `seat_id` int DEFAULT NULL,
+  `hall_id` int DEFAULT NULL,
+  `seance_id` int DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tickets_seances_FK` (`seance_id`),
+  KEY `tickets_halls_FK` (`hall_id`),
+  CONSTRAINT `tickets_halls_FK` FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`),
+  CONSTRAINT `tickets_seances_FK` FOREIGN KEY (`seance_id`) REFERENCES `seances` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tickets`
+--
+
+LOCK TABLES `tickets` WRITE;
+/*!40000 ALTER TABLE `tickets` DISABLE KEYS */;
+INSERT INTO `tickets` VALUES (3,0,7,20,'2024-05-07'),(4,9,7,20,'2024-05-07');
+/*!40000 ALTER TABLE `tickets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -139,4 +170,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-07  1:34:19
+-- Dump completed on 2024-06-07 18:25:17

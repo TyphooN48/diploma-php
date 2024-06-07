@@ -1,5 +1,5 @@
 <? require_once $_SERVER['DOCUMENT_ROOT'] . '/service/header.php';
-if (!isset($_POST['film_id']) && !isset($_POST['seance_id'])) {
+if (!isset($_POST['film_id']) && !isset($_POST['seance_id']) && !isset($_POST['date'])) {
     header("Location: /client/");
 }
 ?>
@@ -26,8 +26,8 @@ if (!isset($_POST['film_id']) && !isset($_POST['seance_id'])) {
         <div class="buying__info">
             <div class="buying__info-description">
                 <? $film = $db->selectWhere('films', ['name'], ['id' => (int)$_POST['film_id']])[0];
-                $seance = $db->selectWhere('seances', ['time_start', 'hall_id'], ['id' => (int)$_POST['seance_id']])[0];
-                $hall = $db->selectWhere('halls', ['name', 'grid', 'cost'], ['id' => $seance['hall_id']])[0]; ?>
+                $seance = $db->selectWhere('seances', ['id', 'time_start', 'hall_id'], ['id' => (int)$_POST['seance_id']])[0];
+                $hall = $db->selectWhere('halls', ['id', 'name', 'grid', 'cost'], ['id' => $seance['hall_id']])[0]; ?>
                 <h2 class="buying__info-title"><?= $film['name'] ?></h2>
                 <p class="buying__info-start">Начало сеанса: <?= $seance['time_start'] ?></p>
                 <p class="buying__info-hall"><?= $hall['name'] ?></p>
@@ -46,9 +46,17 @@ if (!isset($_POST['film_id']) && !isset($_POST['seance_id'])) {
                 for ($i = 1; $i <= $hallgrid['rows']; $i++): ?>
                     <div class="buying-scheme__row">
                         <? for ($j = 1; $j <= $hallgrid['places']; $j++):
-                            $gridPlace = $hallgrid['places'] * ($i - 1) + $j - 1?>
-                            <span class="buying-scheme__chair buying-scheme__chair_<?=$placeType[$hallgrid['grid'][$gridPlace]]?>"
-                                  data-seatid="<?=$gridPlace?>" data-seattype="<?=$placeType[$hallgrid['grid'][$gridPlace]]?>"></span>
+                            $gridPlace = $hallgrid['places'] * ($i - 1) + $j - 1;
+                            $chairType = $placeType[$hallgrid['grid'][$gridPlace]];
+                            if(count($db->selectWhere('tickets', ['id'], [
+                                    'hall_id' => $hall['id'],
+                                    'seance_id' => $seance['id'],
+                                    'seat_id' => $gridPlace,
+                                    'date' => $_POST['date']])) >= 1)
+                                $chairType = 'taken';
+                            ?>
+                            <span class="buying-scheme__chair buying-scheme__chair_<?=$chairType?>"
+                                  data-seatid="<?=$gridPlace?>" data-seattype="<?=$chairType?>"></span>
                         <?endfor; ?>
                     </div>
                 <? endfor; ?>
@@ -73,6 +81,7 @@ if (!isset($_POST['film_id']) && !isset($_POST['seance_id'])) {
         </div>
         <input type="hidden" value="<?=$_POST['film_id']?>" name="film_id">
         <input type="hidden" value="<?=$_POST['seance_id']?>" name="seance_id">
+        <input type="hidden" value="<?=$_POST['date']?>" name="date">
         <button class="acceptin-button" disabled>Забронировать</button>
     </section>
 </main>

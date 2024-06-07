@@ -7,7 +7,7 @@ if (!isset($_POST['filmID'])) {
 } else {
     $filmID = (int)($_POST['filmID']);
     $poster = $db->selectWhere('films', ['poster'], ['id' => $filmID]);
-    unlink($serverPathRoot . $poster[0]['poster']);
+    unlink($_SERVER['DOCUMENT_ROOT'] . $poster[0]['poster']);
     $deleteSeance = $db->delete('seances', ['film_id' => $filmID]);
     if ($deleteSeance) {
         $deleteFilm = $db->delete('films', ['id' => $filmID]);

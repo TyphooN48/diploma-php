@@ -22,6 +22,11 @@ function checkSeat() {
     hiddenField3.name = 'seance_id'
     hiddenField3.value = document.querySelector('input[name="seance_id"]').value
     form.appendChild(hiddenField3)
+    const hiddenField4 = document.createElement("input")
+    hiddenField4.type = "hidden"
+    hiddenField4.name = 'date'
+    hiddenField4.value = document.querySelector('input[name="date"]').value
+    form.appendChild(hiddenField4)
     document.body.appendChild(form)
     form.submit()
 }
