@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?print_r($_POST)?>
 <html lang="ru">
 
 <head>
