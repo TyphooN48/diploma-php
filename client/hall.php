@@ -52,7 +52,7 @@ if (!isset($_POST['film_id']) && !isset($_POST['seance_id']) && !isset($_POST['d
                                     'hall_id' => $hall['id'],
                                     'seance_id' => $seance['id'],
                                     'seat_id' => $gridPlace,
-                                    'date' => $_POST['date']])) >= 1)
+                                    'date' => "'" . $_POST['date'] . "'"])) >= 1)
                                 $chairType = 'taken';
                             ?>
                             <span class="buying-scheme__chair buying-scheme__chair_<?=$chairType?>"

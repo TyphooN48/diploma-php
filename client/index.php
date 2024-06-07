@@ -29,7 +29,7 @@
         if (date('w', $day) == 0 || date('w', $day) == 6)
             $class = ' page-nav__day_weekend'; ?>
         <span class="page-nav__day <?= $first . $class ?>"
-              data-day="<?= date('j', $day) ?>" data-fulldate="<?=date('Y-m-d')?>">
+              data-day="<?= date('j', $day) ?>" data-fulldate="<?=date('Y-m-d', $day)?>">
             <span class="page-nav__day-week"><?= $dayWeek ?></span><span
                     class="page-nav__day-number"><?= date('j', $day) ?></span>
         </span>

@@ -1,5 +1,4 @@
 const dayLinks = Array.from(document.getElementsByClassName("page-nav__day"))
-const movieSeances = Array.from(document.getElementsByClassName("movie-seances__time"))
 const today = new Date()
 let selectedDate = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate()
 function setSeances(e) {
@@ -15,6 +14,8 @@ function setSeances(e) {
         e.target.parentElement.classList.add('page-nav__day_chosen')
         selectedDate = e.target.parentElement.dataset.fulldate
     }
+
+    console.log(selectedDate)
     const timeBtn = Array.from(document.querySelectorAll('.movie-seances__time,.movie-seances__time-disabled'))
     if(date == today.getDate()) {
         timeBtn.forEach(btn => {
@@ -32,6 +33,12 @@ function setSeances(e) {
             btn.classList.add('movie-seances__time')
         })
     }
+    const movieSeances = Array.from(document.getElementsByClassName("movie-seances__time"))
+    movieSeances.forEach(time => time.addEventListener('click', (e) => {
+        const selectSeance = e.target.dataset.seanceid
+        const selectFilm = e.target.dataset.filmid
+        selectSeancePost({ film_id: selectFilm, seance_id: selectSeance, date: selectedDate})
+    }))
 }
 
 function selectSeancePost(params) {
@@ -55,9 +62,3 @@ function selectSeancePost(params) {
 }
 
 dayLinks.forEach(day => day.addEventListener('click', setSeances))
-
-movieSeances.forEach(time => time.addEventListener('click', (e) => {
-    const selectSeance = e.target.dataset.seanceid
-    const selectFilm = e.target.dataset.filmid
-    selectSeancePost({ film_id: selectFilm, seance_id: selectSeance, date: selectedDate})
-}))
