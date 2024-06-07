@@ -22,11 +22,16 @@ if (!isset($_POST['type'])) {
                 'grid' => array_map('intval', explode(',', $_POST['grid']))
             ];
             if(canChange($hallID)) {
-                $hallGridAdd = $db->update('halls', ['grid' => json_encode($data, JSON_UNESCAPED_UNICODE)], ['id' => $hallID]);
-                if ($hallGridAdd) {
-                    $result = ['status' => true];
+                $deleteTickets = $db->delete('tickets', ['hall_id' => $hallID]);
+                if ($deleteTickets) {
+                    $hallGridAdd = $db->update('halls', ['grid' => json_encode($data, JSON_UNESCAPED_UNICODE)], ['id' => $hallID]);
+                    if ($hallGridAdd) {
+                        $result = ['status' => true];
+                    } else {
+                        $result = ['status' => false, 'mess' => print_r($hallGridAdd->errorInfo(), true)];
+                    }
                 } else {
-                    $result = ['status' => false, 'mess' => print_r($hallGridAdd->errorInfo(), true)];
+                    $result = ['status' => false, 'mess' => print_r($deleteTickets->errorInfo(), true)];
                 }
             } else {
                 $result = ['status' => false, 'mess' => 'Для изменения конфигурации зала приостановите продажу билетов'];

@@ -92,6 +92,9 @@ function changeGrid() {
 }
 
 async function saveGrid() {
+    if (!confirm("Все билеты проданные в этот зал будут аннулированы!")) {
+        return
+    }
     const hallInp = document.querySelector("input[name='chairs-hall']:checked")
     let hallGrid = []
     Array.from(gridDiv.querySelectorAll('span')).forEach(chair => {
